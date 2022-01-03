@@ -54,8 +54,8 @@ jobs:
       with:
         path: |
           conan_build
-          c/.conan
-        key: conan-${{ hashFiles('conanfile.txt') }}-v1.11
+          conan_data
+        key: conan-${{ hashFiles('conanfile.txt') }}-v1.12
 
 
     - name: Set up Windows Python ${{ matrix.python_version }}
@@ -74,10 +74,10 @@ jobs:
 
     - name: Temp WTF
       run: |
-        echo "Dir .conan"
-        dir "conan_build"
         echo "Dir conan_build"
-        dir "C:\.conan"
+        dir "conan_build"
+        echo "Dir conan_data"
+        dir "conan_data"
 
 
 #    - uses: pypa/cibuildwheel@v2.3.1
