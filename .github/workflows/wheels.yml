@@ -47,11 +47,11 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Set Win env vars
+    - name: Set Conan env vars
       if: matrix.os == 'windows-latest'
       run: |
-        echo "CONAN_HOME=%USERPROFILE%\.conan" >> $GITHUB_ENV
-        echo "CONAN_BUILD=$GITHUB_WORKSPACE\conan_build" >> $GITHUB_ENV
+        echo "::set-env name=CONAN_HOME::%USERPROFILE%"
+        echo "::set-env name=CONAN_BUILD::$GITHUB_WORKSPACE\conan_build"
 
     - name: Cache Conan dependencies
       id: cache-conan
