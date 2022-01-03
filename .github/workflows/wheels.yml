@@ -38,8 +38,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
+          # - ubuntu-latest
+          # - macos-latest
           - windows-latest
 
     steps:
@@ -57,32 +57,44 @@ jobs:
           conan-build
         key: conan-${{ hashFiles('conanfile.txt') }}-v1.1
 
-    - name: Set up Windows Python ${{ matrix.python_version }}
-      uses: actions/setup-python@v2
-      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
-      with:
-        python-version: ${{ matrix.python_version }}
-
-    - name: Install conan for Windows
-      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
+    - name: Temp WTF
+      env:
+        TEST: $USERPROFILE
       run: |
-        pip install pip --upgrade
-        pip install conan
-        call .\conan_install.bat
+        echo "Win env": %USERPROFILE%
+        echo "Github env": %TEST%
+        echo "Dir conan_build"
+        dir conan_build
+        echo "Dir .conan"
+        dir %USERPROFILE%\.conan
       shell: cmd
 
-    - uses: pypa/cibuildwheel@v2.3.1
-      env:
-        MACOSX_DEPLOYMENT_TARGET: 10.14
+#    - name: Set up Windows Python ${{ matrix.python_version }}
+#      uses: actions/setup-python@v2
+#      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
+#      with:
+#        python-version: ${{ matrix.python_version }}
 
-    - name: Verify clean directory
-      run: git diff --exit-code
-      shell: bash
+#    - name: Install conan for Windows
+#      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
+#      run: |
+#        pip install pip --upgrade
+#        pip install conan
+#        call .\conan_install.bat
+#      shell: cmd
 
-    - name: Upload wheels
-      uses: actions/upload-artifact@v2
-      with:
-        path: wheelhouse/*.whl
+#    - uses: pypa/cibuildwheel@v2.3.1
+#      env:
+#        MACOSX_DEPLOYMENT_TARGET: 10.14
+#
+#    - name: Verify clean directory
+#      run: git diff --exit-code
+#      shell: bash
+#
+#    - name: Upload wheels
+#      uses: actions/upload-artifact@v2
+#      with:
+#        path: wheelhouse/*.whl
 
   upload_all:
     name: Upload if release
