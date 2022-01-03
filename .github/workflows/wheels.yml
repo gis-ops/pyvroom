@@ -15,21 +15,21 @@ on:
       - '*.md'
 
 jobs:
-  build_sdist:
-    name: Build SDist
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build SDist
-        run: pipx run build --sdist
-
-      - name: Check metadata
-        run: pipx run twine check dist/*
-
-      - uses: actions/upload-artifact@v2
-        with:
-          path: dist/*.tar.gz
+#  build_sdist:
+#    name: Build SDist
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Build SDist
+#        run: pipx run build --sdist
+#
+#      - name: Check metadata
+#        run: pipx run twine check dist/*
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          path: dist/*.tar.gz
 
   build_wheels:
     name: Wheels on ${{ matrix.os }}
@@ -98,21 +98,21 @@ jobs:
 #      with:
 #        path: wheelhouse/*.whl
 
-  upload_all:
-    name: Upload if release
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/setup-python@v2
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: artifact
-        path: dist
-
-    - uses: pypa/gh-action-pypi-publish@v1.4.2
-      with:
-        user: jonathf
-        password: ${{ secrets.pypi_password }}
+#  upload_all:
+#    name: Upload if release
+#    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+#    needs: [build_wheels, build_sdist]
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/setup-python@v2
+#
+#    - uses: actions/download-artifact@v2
+#      with:
+#        name: artifact
+#        path: dist
+#
+#    - uses: pypa/gh-action-pypi-publish@v1.4.2
+#      with:
+#        user: jonathf
+#        password: ${{ secrets.pypi_password }}
