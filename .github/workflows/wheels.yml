@@ -3,7 +3,7 @@ name: Wheels
 on:
   push:
     branches:
-      - 'main'
+      - '*'
     tags:
       - '*'
     paths-ignore:
@@ -72,7 +72,6 @@ jobs:
       shell: cmd
 
     - name: Temp WTF
-      if: steps.cache-conan.outputs.cache-hit == 'true'
       run: |
         echo "Dir conan_build"
         dir C:\Users\runneradmin\.conan
