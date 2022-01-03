@@ -53,8 +53,8 @@ jobs:
       if: matrix.os == 'windows-latest'
       with:
         path:
-          "C:\.conan"
-          "conan_build"
+          'C:\.conan'
+          'conan_build'
         key: conan-${{ hashFiles('conanfile.txt') }}-v1.6
 
     - name: Set up Windows Python ${{ matrix.python_version }}
