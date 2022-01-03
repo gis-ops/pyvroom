@@ -53,9 +53,9 @@ jobs:
       if: matrix.os == 'windows-latest'
       with:
         path:
-          C:\Users\runneradmin\.conan
+          C:\.conan
           conan_build
-        key: conan-${{ hashFiles('conanfile.txt') }}-v1.5
+        key: conan-${{ hashFiles('conanfile.txt') }}-v1.6
 
     - name: Set up Windows Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
@@ -73,10 +73,10 @@ jobs:
 
     - name: Temp WTF
       run: |
-        echo "Dir conan_build"
-        dir C:\Users\runneradmin\.conan
         echo "Dir .conan"
         dir conan_build
+        echo "Dir conan_build"
+        dir "C:\.conan"
 
 #    - uses: pypa/cibuildwheel@v2.3.1
 #      env:
