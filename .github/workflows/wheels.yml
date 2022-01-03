@@ -53,35 +53,37 @@ jobs:
       if: matrix.os == 'windows-latest'
       with:
         path:
-          $USERPROFILE/.conan
-          conan-build
-        key: conan-${{ hashFiles('conanfile.txt') }}-v1.1
+          $env:USERPROFILE\.conan
+          $GITHUB_WORKSPACE\conan_build
+        key: conan-${{ hashFiles('conanfile.txt') }}-v1.2
 
     - name: Temp WTF
+      if: steps.cache-conan.outputs.cache-hit == 'true'
       env:
-        TEST: $USERPROFILE
+        TEST: $env:USERPROFILE
       run: |
         echo "Win env": %USERPROFILE%
-        echo "Github env": %TEST%
+        echo "Wrapped env": %TEST%
+        echo "Github env": $env:USERPROFILE
         echo "Dir conan_build"
         dir conan_build
         echo "Dir .conan"
         dir %USERPROFILE%\.conan
       shell: cmd
 
-#    - name: Set up Windows Python ${{ matrix.python_version }}
-#      uses: actions/setup-python@v2
-#      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
-#      with:
-#        python-version: ${{ matrix.python_version }}
+    - name: Set up Windows Python ${{ matrix.python_version }}
+      uses: actions/setup-python@v2
+      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
+      with:
+        python-version: ${{ matrix.python_version }}
 
-#    - name: Install conan for Windows
-#      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
-#      run: |
-#        pip install pip --upgrade
-#        pip install conan
-#        call .\conan_install.bat
-#      shell: cmd
+    - name: Install conan for Windows
+      if: matrix.os == 'windows-latest' && steps.cache-conan.outputs.cache-hit != 'true'
+      run: |
+        pip install pip --upgrade
+        pip install conan
+        call .\conan_install.bat
+      shell: cmd
 
 #    - uses: pypa/cibuildwheel@v2.3.1
 #      env:
