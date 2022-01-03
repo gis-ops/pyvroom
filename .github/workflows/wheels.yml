@@ -50,8 +50,8 @@ jobs:
     - name: Set Conan env vars
       if: matrix.os == 'windows-latest'
       run: |
-        echo "::set-env name=CONAN_HOME::%USERPROFILE%"
-        echo "::set-env name=CONAN_BUILD::$GITHUB_WORKSPACE\conan_build"
+        echo "%USERPROFILE%" | Out-File -FilePath $env:CONAN_HOME -Append
+        echo "$GITHUB_WORKSPACE\conan_build" | Out-File -FilePath $env:CONAN_BUILD -Append
 
     - name: Cache Conan dependencies
       id: cache-conan
