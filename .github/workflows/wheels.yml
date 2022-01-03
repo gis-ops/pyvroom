@@ -52,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       if: matrix.os == 'windows-latest'
       with:
-        path:
+        path: |
           'C:\.conan'
           'conan_build'
         key: conan-${{ hashFiles('conanfile.txt') }}-v1.6
