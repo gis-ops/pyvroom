@@ -54,7 +54,7 @@ jobs:
       with:
         path: |
           'conan_build'
-          'C:\.conan'
+          'C:/.conan'
         key: conan-${{ hashFiles('conanfile.txt') }}-v1.8
 
     - name: Set up Windows Python ${{ matrix.python_version }}
