@@ -74,7 +74,6 @@ jobs:
         dir "${{ env.CONAN_BUILD }}"
         echo "Dir .conan"
         dir "${{ env.CONAN_HOME }}"
-      shell: cmd
 
     - name: Set up Windows Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
