@@ -47,6 +47,12 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Set Win env vars
+      if: matrix.os == 'windows-latest'
+      run: |
+        echo "CONAN_HOME=%USERPROFILE%\.conan" >> $GITHUB_ENV
+        echo "CONAN_BUILD=$GITHUB_WORKSPACE\conan_build" >> $GITHUB_ENV
+
     - name: Cache Conan dependencies
       id: cache-conan
       uses: actions/cache@v2
@@ -62,13 +68,12 @@ jobs:
       env:
         TEST: $env:USERPROFILE
       run: |
-        echo "Win env": %USERPROFILE%
-        echo "Wrapped env": %TEST%
-        echo "Github env": $env:USERPROFILE
+        echo "wrapped conan home ${{ env.CONAN_HOME }}"
+        echo "wrapped conan build ${{ env.CONAN_BUILD }}"
         echo "Dir conan_build"
-        dir conan_build
+        dir "${{ env.CONAN_BUILD }}"
         echo "Dir .conan"
-        dir %USERPROFILE%\.conan
+        dir "${{ env.CONAN_HOME }}"
       shell: cmd
 
     - name: Set up Windows Python ${{ matrix.python_version }}
