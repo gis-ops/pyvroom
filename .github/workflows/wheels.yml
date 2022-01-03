@@ -53,27 +53,15 @@ jobs:
         echo "CONAN_HOME=%USERPROFILE%\.conan" >> $GITHUB_ENV
         echo "CONAN_BUILD=$GITHUB_WORKSPACE\conan_build" >> $GITHUB_ENV
 
-    - name: Cache Conan dependencies
+    - name: Cache Conan
       id: cache-conan
       uses: actions/cache@v2
       if: matrix.os == 'windows-latest'
       with:
         path:
-          $env:USERPROFILE\.conan
-          $GITHUB_WORKSPACE\conan_build
-        key: conan-${{ hashFiles('conanfile.txt') }}-v1.2
-
-    - name: Temp WTF
-      if: steps.cache-conan.outputs.cache-hit == 'true'
-      env:
-        TEST: $env:USERPROFILE
-      run: |
-        echo "wrapped conan home ${{ env.CONAN_HOME }}"
-        echo "wrapped conan build ${{ env.CONAN_BUILD }}"
-        echo "Dir conan_build"
-        dir "${{ env.CONAN_BUILD }}"
-        echo "Dir .conan"
-        dir "${{ env.CONAN_HOME }}"
+          C:\Users\runneradmin\.conan
+          conan_build
+        key: conan-${{ hashFiles('conanfile.txt') }}-v1.3
 
     - name: Set up Windows Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
@@ -88,6 +76,14 @@ jobs:
         pip install conan
         call .\conan_install.bat
       shell: cmd
+
+    - name: Temp WTF
+      if: steps.cache-conan.outputs.cache-hit == 'true'
+      run: |
+        echo "Dir conan_build"
+        dir C:\Users\runneradmin\.conan
+        echo "Dir .conan"
+        dir conan_build
 
 #    - uses: pypa/cibuildwheel@v2.3.1
 #      env:
