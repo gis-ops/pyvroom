@@ -55,8 +55,7 @@ jobs:
         path: |
           conan_build
           conan_data
-        key: conan-${{ hashFiles('conanfile.txt') }}-v1.12
-
+        key: conan-${{ hashFiles('conanfile.txt') }}-v1.13
 
     - name: Set up Windows Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
@@ -69,7 +68,11 @@ jobs:
       run: |
         pip install pip --upgrade
         pip install conan
-        call .\conan_install.bat
+        conan profile new default --detect
+        conan profile update "settings.compiler=Visual Studio" default
+        conan profile update "settings.compiler.version=16" default
+        conan config set "storage.path=$GITHUB_WORKSPACE\conan_data"
+        conan install --build=openssl --install-folder conan_build .
       shell: cmd
 
     - name: Temp WTF
